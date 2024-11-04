@@ -41,5 +41,6 @@ jq --arg key "$PRIVATE_KEY" --arg url "$RPC_URL" \
    '.chain.wallet.private_key = $key | .chain.rpc_url = $url' \
    "$CONFIG_PATH" > tmp.$$.json && mv tmp.$$.json "$CONFIG_PATH"
 
-echo "私钥和 RPC URL 已
+echo "私钥和 RPC URL 已更新到 $CONFIG_PATH。"
+
 
