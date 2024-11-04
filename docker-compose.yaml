@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   infernet-anvil:
     image: ritualnetwork/infernet_anvil:latest
@@ -34,3 +32,4 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+
