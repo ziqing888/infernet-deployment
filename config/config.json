@@ -1,0 +1,62 @@
+{
+  "log_path": "infernet_node.log",
+  "server": {
+    "port": 4000,
+    "rate_limit": {
+      "num_requests": 60,
+      "period": 60.0
+    }
+  },
+  "redis": {
+    "host": "redis",
+    "port": 6379
+  },
+  "log": {
+    "path": "infernet_node.log",
+    "max_file_size": 1073741824,
+    "backup_count": 2
+  },
+  "manage_containers": true,
+  "forward_stats": true,
+  "startup_wait": 60.0,
+  "chain": {
+    "enabled": true,
+    "trail_head_blocks": 1,
+    "rpc_url": "https://mainnet.base.org/",
+    "registry_address": "0xe2F36C4E23D67F81fE0B278E80ee85Cf0ccA3c8d",
+    "wallet": {
+      "private_key": "your_private_key_here",
+      "max_gas_limit": 5000000
+    },
+    "payment_address": "0xYourWalletAddress",
+    "allowed_sim_errors": ["out of gas"],
+    "snapshot_sync": {
+      "sleep": 1.0,
+      "batch_size": 200,
+      "starting_sub_id": 0,
+      "sync_period": 0.5
+    }
+  },
+  "docker": {
+    "username": "your-username",
+    "password": "your-password"
+  },
+  "containers": [
+    {
+      "id": "onnx-inference-2.0.0",
+      "image": "ritualnetwork/onnx_inference_service:2.0.0",
+      "description": "ONNX Inference Service",
+      "command": "--bind=0.0.0.0:3000 --workers=2",
+      "env": {},
+      "external": true,
+      "gpu": false,
+      "port": 3000,
+      "volumes": [],
+      "allowed_addresses": [],
+      "allowed_delegate_addresses": [],
+      "allowed_ips": [],
+      "accepted_payments": {},
+      "generates_proofs": false
+    }
+  ]
+}
