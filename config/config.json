@@ -57,8 +57,86 @@
       "allowed_ips": [],
       "accepted_payments": {},
       "generates_proofs": false
+    },
+    {
+      "id": "infernet-anvil",
+      "image": "ritualnetwork/infernet_anvil:latest",
+      "description": "Infernet Anvil Service",
+      "command": "--bind=0.0.0.0:3001 --workers=2",
+      "env": {},
+      "external": true,
+      "gpu": false,
+      "port": 3001,
+      "volumes": [],
+      "allowed_addresses": [],
+      "allowed_delegate_addresses": [],
+      "allowed_ips": [],
+      "accepted_payments": {},
+      "generates_proofs": false
+    },
+    {
+      "id": "hello-world",
+      "image": "ritualnetwork/hello-world-infernet:latest",
+      "description": "Hello World Service",
+      "command": "--config /config/config.json",
+      "env": {},
+      "external": false,
+      "gpu": false,
+      "port": 3002,
+      "volumes": ["/path/to/config:/config"],
+      "allowed_addresses": [],
+      "allowed_delegate_addresses": [],
+      "allowed_ips": [],
+      "accepted_payments": {},
+      "generates_proofs": true
+    },
+    {
+      "id": "infernet-node",
+      "image": "ritualnetwork/infernet_node:1.4.0",
+      "description": "Infernet Node Service",
+      "command": "--config /config/config.json",
+      "env": {},
+      "external": false,
+      "gpu": false,
+      "port": 4000,
+      "volumes": ["/path/to/config:/config"],
+      "allowed_addresses": [],
+      "allowed_delegate_addresses": [],
+      "allowed_ips": [],
+      "accepted_payments": {},
+      "generates_proofs": true
+    },
+    {
+      "id": "deploy-fluentbit-1",
+      "image": "fluent/fluent-bit:latest",
+      "description": "Fluentbit Logging Service",
+      "command": "/fluent-bit/bin/fluent-bit -c /fluent-bit/etc/fluent-bit.conf",
+      "env": {},
+      "external": false,
+      "gpu": false,
+      "port": 24224,
+      "volumes": ["/path/to/fluentbit/config:/fluent-bit/etc"],
+      "allowed_addresses": [],
+      "allowed_delegate_addresses": [],
+      "allowed_ips": [],
+      "accepted_payments": {},
+      "generates_proofs": false
+    },
+    {
+      "id": "deploy-redis-1",
+      "image": "redis:latest",
+      "description": "Redis Cache Service",
+      "command": "redis-server",
+      "env": {},
+      "external": false,
+      "gpu": false,
+      "port": 6379,
+      "volumes": [],
+      "allowed_addresses": [],
+      "allowed_delegate_addresses": [],
+      "allowed_ips": [],
+      "accepted_payments": {},
+      "generates_proofs": false
     }
   ]
 }
-
-
