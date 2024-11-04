@@ -1,17 +1,17 @@
-version: '3.8'
+version: '3.8'  # 确保版本声明在文件顶部
 
 services:
-  infernet-node:
-    image: ritualnetwork/infernet-node:1.4.0 # 更新为 1.4.0
+  node:
+    image: ritualnetwork/infernet-node:1.4.0
     ports:
       - "0.0.0.0:4000:4000"
     volumes:
-      - ./config/config.json:/app/config.json
+      - ./config.json:/app/config.json
       - node-logs:/logs
       - /var/run/docker.sock:/var/run/docker.sock
     tty: true
     networks:
-      - infernet-network
+      - network
     depends_on:
       - redis
       - infernet-anvil
@@ -23,11 +23,11 @@ services:
     container_name: infernet-node
 
   redis:
-    image: redis:7.4.0 # 保持 Redis 版本
+    image: redis:7.4.0
     ports:
       - "6379:6379"
     networks:
-      - infernet-network
+      - network
     volumes:
       - ./redis.conf:/usr/local/etc/redis/redis.conf
       - redis-data:/data
@@ -36,7 +36,7 @@ services:
     container_name: infernet-redis
 
   fluentbit:
-    image: fluent/fluent-bit:3.1.4 # 保持 Fluent Bit 版本
+    image: fluent/fluent-bit:3.1.4
     expose:
       - "24224"
     environment:
@@ -45,25 +45,23 @@ services:
       - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
       - /var/log:/var/log:ro
     networks:
-      - infernet-network
+      - network
     restart:
       on-failure
     container_name: infernet-fluentbit
 
   infernet-anvil:
-    image: ritualnetwork/infernet-anvil:1.4.0 # 更新为 1.4.0
+    image: ritualnetwork/infernet-anvil:1.0.0
     command: --host 0.0.0.0 --port 3000 --load-state infernet_deployed.json -b 1
     ports:
       - "8545:3000"
     networks:
-      - infernet-network
+      - network
     container_name: infernet-anvil
 
 networks:
-  infernet-network: # 自定义网络配置
+  network:
 
 volumes:
-  node-logs: # 定义持久化日志卷
-  redis-data: # 定义 Redis 数据卷
-
-
+  node-logs:
+  redis-data:
