@@ -11,9 +11,13 @@ contract Deploy is Script {
         // 部署官方合约
         OfficialContract officialContract = new OfficialContract();
         
-        // 输出合约地址，方便后续调用
+        // 输出合约地址，写入到文件中
         console.log("OfficialContract 部署地址:", address(officialContract));
+        
+        // 将合约地址写入到文件
+        vm.writeFile("deployed_address.txt", abi.encodePacked(address(officialContract)));
 
         vm.stopBroadcast();
     }
 }
+
