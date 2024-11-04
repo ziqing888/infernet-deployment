@@ -31,10 +31,10 @@
     "payment_address": "0xYourWalletAddress",
     "allowed_sim_errors": ["out of gas"],
     "snapshot_sync": {
-      "sleep": 1.0,
-      "batch_size": 200,
-      "starting_sub_id": 0,
-      "sync_period": 0.5
+      "sleep": 3,
+      "batch_size": 800,
+      "starting_sub_id": 160000,
+      "sync_period": 30
     }
   },
   "docker": {
@@ -60,4 +60,5 @@
     }
   ]
 }
+
 
