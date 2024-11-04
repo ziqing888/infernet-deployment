@@ -38,7 +38,11 @@ while true; do
             ;;
         5)
             echo "启动所有容器..."
-            docker-compose up -d
+            echo "拉取最新镜像..."
+            docker-compose pull # 拉取镜像
+            if ! docker-compose up -d; then
+                echo "启动容器时出错，请检查 Docker Compose 配置或镜像是否可用。"
+            fi
             ;;
         6)
             echo "停止所有容器..."
@@ -75,4 +79,5 @@ while true; do
 
     echo ""
 done
+
 
