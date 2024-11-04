@@ -37,9 +37,12 @@ while true; do
             bash ./scripts/add_services.sh
             ;;
         5)
-            echo "启动所有容器..."
-            echo "拉取最新镜像..."
-            docker-compose pull # 拉取镜像
+            echo "拉取最新镜像并启动所有容器..."
+            if ! docker-compose pull; then
+                echo "拉取镜像失败，请检查配置。"
+                continue
+            fi
+            
             if ! docker-compose up -d; then
                 echo "启动容器时出错，请检查 Docker Compose 配置或镜像是否可用。"
             fi
@@ -79,5 +82,6 @@ while true; do
 
     echo ""
 done
+
 
 
