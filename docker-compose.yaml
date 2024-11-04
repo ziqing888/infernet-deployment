@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  infernet-anvil:
+    image: ritualnetwork/infernet_anvil:latest
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./config/config.json:/config/config.json
+
+  hello-world:
+    image: ritualnetwork/hello-world-infernet:latest
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./config/config.json:/config/config.json
+
+  infernet-node:
+    image: ritualnetwork/infernet_node:1.4.0
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./config/config.json:/app/config.json
+      - ./node-logs:/logs
+
+  deploy-fluentbit-1:
+    image: fluent/fluent-bit:latest
+    ports:
+      - "24224:24224"
+    volumes:
+      - ./fluentbit/config:/fluent-bit/etc
+
+  deploy-redis-1:
+    image: redis:latest
+    ports:
+      - "6379:6379"
