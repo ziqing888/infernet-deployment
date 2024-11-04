@@ -1,35 +1,69 @@
+version: '3.8'
+
 services:
-  infernet-anvil:
-    image: ritualnetwork/infernet_anvil:latest
-    ports:
-      - "3001:3001"
-    volumes:
-      - ./config/config.json:/config/config.json
-
-  hello-world:
-    image: ritualnetwork/hello-world-infernet:latest
-    ports:
-      - "3002:3002"
-    volumes:
-      - ./config/config.json:/config/config.json
-
   infernet-node:
-    image: ritualnetwork/infernet_node:1.4.0
+    image: ritualnetwork/infernet-node:1.4.0 # 更新为 1.4.0
     ports:
-      - "4000:4000"
+      - "0.0.0.0:4000:4000"
     volumes:
       - ./config/config.json:/app/config.json
-      - ./node-logs:/logs
+      - node-logs:/logs
+      - /var/run/docker.sock:/var/run/docker.sock
+    tty: true
+    networks:
+      - infernet-network
+    depends_on:
+      - redis
+      - infernet-anvil
+    restart:
+      on-failure
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stop_grace_period: 1m
+    container_name: infernet-node
 
-  deploy-fluentbit-1:
-    image: fluent/fluent-bit:latest
-    ports:
-      - "24224:24224"
-    volumes:
-      - ./fluentbit/config:/fluent-bit/etc
-
-  deploy-redis-1:
-    image: redis:latest
+  redis:
+    image: redis:7.4.0 # 保持 Redis 版本
     ports:
       - "6379:6379"
+    networks:
+      - infernet-network
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+      - redis-data:/data
+    restart:
+      on-failure
+    container_name: infernet-redis
+
+  fluentbit:
+    image: fluent/fluent-bit:3.1.4 # 保持 Fluent Bit 版本
+    expose:
+      - "24224"
+    environment:
+      - FLUENTBIT_CONFIG_PATH=/fluent-bit/etc/fluent-bit.conf
+    volumes:
+      - ./fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - /var/log:/var/log:ro
+    networks:
+      - infernet-network
+    restart:
+      on-failure
+    container_name: infernet-fluentbit
+
+  infernet-anvil:
+    image: ritualnetwork/infernet-anvil:1.4.0 # 更新为 1.4.0
+    command: --host 0.0.0.0 --port 3000 --load-state infernet_deployed.json -b 1
+    ports:
+      - "8545:3000"
+    networks:
+      - infernet-network
+    container_name: infernet-anvil
+
+networks:
+  infernet-network: # 自定义网络配置
+
+volumes:
+  node-logs: # 定义持久化日志卷
+  redis-data: # 定义 Redis 数据卷
+
 
