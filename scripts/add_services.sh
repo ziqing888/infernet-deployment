@@ -15,6 +15,7 @@ infernet-cli add-service <<EOF
   "env": {},
   "external": true,
   "gpu": false,
+  "port": 4000,
   "volumes": [],
   "allowed_addresses": [],
   "allowed_delegate_addresses": [],
@@ -24,4 +25,5 @@ infernet-cli add-service <<EOF
 }
 EOF
 
-echo "服务已添加到配置文件中。"
+echo "服务已成功添加到配置文件中。"
+
