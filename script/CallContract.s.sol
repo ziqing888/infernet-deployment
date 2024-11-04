@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # 导入配置文件路径
 CONFIG_PATH="./config/config.json"
 
