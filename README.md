@@ -6,7 +6,7 @@
 
 ### 1. 克隆项目
 ```bash
-git clone https://github.com/your-repo/infernet-deployment.git
+git clone https://github.com/ziqing888/infernet-deployment.git
 cd infernet-deployment
  ```
 ### 2. 运行主控制脚本
